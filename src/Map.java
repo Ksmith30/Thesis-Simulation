@@ -13,7 +13,7 @@ class Map {
     private static int nodeHopsAllowed = 2;
     private static int maxVideoStoragePerNode = 500;
 
-    private static String modelType = ModelType.BASE;
+    private static String modelType = ModelType.FIXED;
 
     private static HashMap<Integer, Integer> movieNumberUses;
     private static HashMap<Integer, Integer> movieLengths;
@@ -81,7 +81,7 @@ class Map {
     }
 
     private boolean checkNodeHops(MovieSegment movieSegment, int movieNumber, int nodeNumber) {
-        if (this.nodeHopsAllowed == this.nodeHops) {
+        if (nodeHopsAllowed == this.nodeHops) {
             this.cloudCalls++;
             return true;
         }
@@ -123,6 +123,10 @@ class Map {
         return numberOfMovies;
     }
 
+    void updateNodeHops(int nodeHops) {
+        this.totalNodeHops += nodeHops;
+    }
+
     private void start() {
         for (int i = 0; i < numberOfCars; ++i) {
             cars.get(i).drive(numberOfMilesTravelled);
@@ -139,12 +143,6 @@ class Map {
 
     private void initializeCars() {
         switch (modelType) {
-            case ModelType.BASE:
-                for (int i = 1; i <= numberOfCars; ++i) {
-                    Car car = new BaseCar(this, i);
-                    cars.add(car);
-                }
-                break;
             case ModelType.FIXED:
                 for (int i = 1; i <= numberOfCars; ++i) {
                     Car car = new FixedCar(this, i);

@@ -22,7 +22,7 @@ abstract class Car {
         this.currentMovie = new Movie();
         this.map.updateMovieUses(this.currentMovie.getMovieNumber());
         this.coordinator = map.getOptimalFogNode(currentPosition);
-        this.optimalFogNode = map.getOptimalFogNode(currentPosition);
+        this.optimalFogNode = this.coordinator;
         this.currentSegment = getMovieSegment(0.0);
         addSegmentAndRequest();
     }
@@ -31,12 +31,12 @@ abstract class Car {
 
     void drive(int numberOfMiles) {
         for (int miles = 0; miles < numberOfMiles; ++miles) {
+            if (this.currentPosition >= Map.getLengthOfRoad()) {
+                break;
+            }
             this.optimalFogNode = map.getOptimalFogNode(currentPosition);
             updateMovie();
             this.currentPosition++;
-            if (this.currentPosition > Map.getLengthOfRoad()) {
-                break;
-            }
         }
     }
 

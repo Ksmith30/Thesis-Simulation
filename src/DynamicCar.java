@@ -1,4 +1,5 @@
-public class DynamicCar extends Car {
+class DynamicCar extends Car {
+
     DynamicCar(Map map, int carNumber) {
         super(map, carNumber);
     }

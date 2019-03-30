@@ -31,6 +31,14 @@ class Node {
         return this.position;
     }
 
+    MovieSegment getMostRecentRequestHistory(int movieNumber) {
+        if (requestHistory == null) {
+            return null;
+        }
+        ArrayList<MovieSegment> list = requestHistory.get(movieNumber);
+        return requestHistory.get(movieNumber).get(list.size() - 1);
+    }
+
     void addMovieSegment(MovieSegment movieSegment) {
         if (movieSegments.containsKey(movieSegment.getMovieNumber())) {
             movieSegments.get(movieSegment.getMovieNumber()).add(movieSegment);
