@@ -11,6 +11,7 @@ abstract class Car {
     private Map map;
     private Node optimalFogNode;
     private Node coordinator;
+    private Node previousNode;
 
     Car(Map map, int carNumber) {
         Random rand = new Random();
@@ -23,22 +24,14 @@ abstract class Car {
         this.map.updateMovieUses(this.currentMovie.getMovieNumber());
         this.coordinator = map.getOptimalFogNode(currentPosition);
         this.optimalFogNode = this.coordinator;
+        this.previousNode = this.optimalFogNode;
         this.currentSegment = getMovieSegment(0.0);
         addSegmentAndRequest();
     }
 
     abstract MovieSegment getMovieSegment(double end);
 
-    void drive(int numberOfMiles) {
-        for (int miles = 0; miles < numberOfMiles; ++miles) {
-            if (this.currentPosition >= Map.getLengthOfRoad()) {
-                break;
-            }
-            this.optimalFogNode = map.getOptimalFogNode(currentPosition);
-            updateMovie();
-            this.currentPosition++;
-        }
-    }
+    abstract void drive(int numberOfMiles);
 
     private boolean stillInCurrentMovie() {
         return this.currentMovie.getMoviePosition() + this.minutesPerMile < this.currentMovie.getMovieLength();
@@ -52,7 +45,7 @@ abstract class Car {
         this.coordinator.addRequest(carNumber, this.currentSegment);
     }
 
-    private void updateMovie() {
+    void updateMovie() {
         if (stillInCurrentMovie()) {
             this.currentMovie.updateMoviePosition(this.minutesPerMile);
             updateMovieSegment();
@@ -84,6 +77,10 @@ abstract class Car {
         return this.currentPosition;
     }
 
+    void setCurrentPosition(double currentPosition) {
+        this.currentPosition = currentPosition;
+    }
+
     double getCarSpeed() {
         return this.carSpeed;
     }
@@ -94,6 +91,18 @@ abstract class Car {
 
     Node getOptimalFogNode() {
         return this.optimalFogNode;
+    }
+
+    void setOptimalFogNode(Node optimalFogNode) {
+        this.optimalFogNode = optimalFogNode;
+    }
+
+    Node getPreviousNode() {
+        return this.previousNode;
+    }
+
+    void setPreviousNode(Node previousNode) {
+        this.previousNode = previousNode;
     }
 
     Node getCoordinator() {

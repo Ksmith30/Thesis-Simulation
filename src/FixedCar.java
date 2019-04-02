@@ -24,4 +24,15 @@ class FixedCar extends Car {
         return new MovieSegment(end, end + minutesLeftInRange,
                 this.getCurrentMovie().getMovieNumber());
     }
+
+    void drive(int numberOfMiles) {
+        for (int miles = 0; miles < numberOfMiles; ++miles) {
+            if (this.getCurrentPosition() >= Map.getLengthOfRoad()) {
+                break;
+            }
+            this.setOptimalFogNode(this.getMap().getOptimalFogNode(this.getCurrentPosition()));
+            this.updateMovie();
+            this.setCurrentPosition(getCurrentPosition() + 1);
+        }
+    }
 }

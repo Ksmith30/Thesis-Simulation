@@ -4,7 +4,7 @@ import java.util.Random;
 
 class Map {
 
-    private static int numberOfMilesTravelled = 200;
+    private static int numberOfMilesTravelled = 400;
     private static int numberOfMovies = 50;
     private static int lengthOfRoad = 500;
     private static int numberOfCars = 100;
@@ -12,8 +12,7 @@ class Map {
     private static int lengthOfVideoSegments = 5;
     private static int nodeHopsAllowed = 2;
     private static int maxVideoStoragePerNode = 500;
-
-    private static String modelType = ModelType.FIXED;
+    private static String modelType = ModelType.DYNAMIC;
 
     private static HashMap<Integer, Integer> movieNumberUses;
     private static HashMap<Integer, Integer> movieLengths;
@@ -143,6 +142,12 @@ class Map {
 
     private void initializeCars() {
         switch (modelType) {
+            case ModelType.BASE:
+                for (int i = 1; i <= numberOfCars; ++i) {
+                    Car car = new BaseCar(this, i);
+                    cars.add(car);
+                }
+                break;
             case ModelType.FIXED:
                 for (int i = 1; i <= numberOfCars; ++i) {
                     Car car = new FixedCar(this, i);

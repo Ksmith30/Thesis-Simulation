@@ -1,6 +1,6 @@
-class DynamicCar extends Car {
+class BaseCar extends Car {
 
-    DynamicCar(Map map, int carNumber) {
+    BaseCar(Map map, int carNumber) {
         super(map, carNumber);
     }
 
@@ -25,10 +25,6 @@ class DynamicCar extends Car {
                 break;
             }
             this.setOptimalFogNode(this.getMap().getOptimalFogNode(this.getCurrentPosition()));
-            if (this.getPreviousNode() != this.getOptimalFogNode()) {
-                this.getMap().updateNodeHops(1);
-                this.setPreviousNode(this.getOptimalFogNode());
-            }
             this.updateMovie();
             this.setCurrentPosition(getCurrentPosition() + 1);
         }
